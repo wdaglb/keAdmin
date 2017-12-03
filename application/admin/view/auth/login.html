@@ -1,0 +1,27 @@
+{extend name='layout'}
+{block name='head'}<link rel="stylesheet" href="{Ke:assets file='css/login.css'}">{/block}
+{block name='body'}
+<div class="bg">
+	<div class="main">
+		<div class="title">KE 后台登录</div>
+		<el-form :model="form" :rules="rules" ref="ruleForm" label-width="100px">
+		
+		  <el-form-item label="登录名" prop="user">
+		    <el-input v-model="form.user" @keyup.enter.native="onLogin"></el-input>
+		  </el-form-item>
+		
+		  <el-form-item label="密码" prop="pass">
+		    <el-input v-model="form.pass" @keyup.enter.native="onLogin" type="password"></el-input>
+		  </el-form-item>
+
+		  <el-form-item>
+		    <el-button type="primary" @click="onLogin">登录</el-button>
+		  </el-form-item>
+		</el-form>
+		<div class="copyright">
+			<p>KE 通用后台</p>
+		</div>
+	</div>
+</div>
+
+{/block}

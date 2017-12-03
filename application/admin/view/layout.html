@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <title>{block name='title'}KE 后台管理{/block}</title>
+    <link rel="stylesheet" href="//unpkg.com/element-ui@2.0.7/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="{Ke:assets file='css/common.css'}">
+    {block name='head'}{/block}
+</head>
+<body>
+<div id="app">
+{block name='body'}{/block}
+</div>
+
+
+<script src="//unpkg.com/vue@2.5.9/dist/vue.js"></script>
+<script src="//unpkg.com/axios@0.14.0/dist/axios.min.js"></script>
+<script src="//unpkg.com/element-ui@2.0.7/lib/index.js"></script>
+<script src="//cdn.bootcss.com/require.js/2.3.5/require.min.js"></script>
+<script src="/static/js/common.js"></script>
+<script>require(['{:request()->controller()}/{:request()->action()}']);</script>
+</body>
+</html>
