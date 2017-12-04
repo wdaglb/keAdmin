@@ -22,10 +22,12 @@
     <div class="sidebar">
         <div class="title"><i :class="iconFormat('bars')"></i>&nbsp;菜单导航</div>
         <ul v-if="menulist[curr].children">
-            <li v-for="item in menulist[curr].children"><i :class="iconFormat(item.icon)"></i>&nbsp;{{ item.title }}</li>
+            <li v-for="item in menulist[curr].children" @click="onSidebar(item)"><i :class="iconFormat(item.icon)"></i>&nbsp;{{ item.title }}</li>
         </ul>
     </div>
+    <div class="body">
 	{block name='body'}{/block}
+    </div>
 </div>
 
 

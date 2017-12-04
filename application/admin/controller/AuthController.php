@@ -32,12 +32,13 @@ class AuthController extends Controller
                 $this->error('密码错误');
             }
             $data->token=md5(uniqid(rand_letter(8)));
+            $data->update_time=$_SERVER['REQUEST_TIME'];
             $data->save();
 
             cookie('access',base64_encode(json_encode([
                 'token'=>$data->token,
                 'id'=>$data->id
-            ])));
+            ])),7200);
 
             $this->success('登录成功','index/index');
         }

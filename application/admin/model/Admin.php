@@ -11,8 +11,6 @@ use think\Model;
 
 class Admin extends Model
 {
-    protected $autoWriteTimestamp = true;
-
     public function chkPass($input)
     {
         return md5($input.sha1($this->getAttr('private')))===$this->getAttr('pass');

@@ -37,8 +37,11 @@ ke.create=function(options){
 	// 全局方法
 	var methods={
 		// font awesome
-		iconFormat:function(type){
+		iconFormat(type){
 			return 'fa fa-fw fa-'+type
+		},
+		onSidebar(item){
+			location.href=item.url
 		}
 	}
 

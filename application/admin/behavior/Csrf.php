@@ -28,7 +28,7 @@ class Csrf extends Controller
         }else{
             $token=strtoupper(md5(uniqid(session_id())));
             session('csrf_token',$token);
-            setcookie('XSRF-TOKEN',$token);
+            cookie('XSRF-TOKEN',$token,['prefix'=>'','expire'=>7200]);
 
             Glo::set('csrf_token',$token);
         }

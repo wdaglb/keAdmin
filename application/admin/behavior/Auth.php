@@ -34,10 +34,18 @@ class Auth extends Controller
                 if($access){
                     $data=Admin::where('id',$access->id)->find();
                     if($data){
-                        Glo::set('adminInfo',$data);
+                        if($_SERVER['REQUEST_TIME']-$data->getData('update_time') < 7200){
+                            Glo::set('adminInfo',$data);
+                            $data->update_time=$_SERVER['REQUEST_TIME'];
+                            $data->save();
+                            /*cookie('access',base64_encode(json_encode([
+                                'token'=>$access->token,
+                                'id'=>$access->id
+                            ])),7200);*/
 
-                        $request->adminInfo=$data;
-                        return $data;
+                            $request->adminInfo=$data;
+                            return $data;
+                        }
                     }
                 }
             }

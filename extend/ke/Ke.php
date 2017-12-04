@@ -38,7 +38,7 @@ class Ke extends \think\template\TagLib
             $vars=substr($vars,0,strlen($vars)-1);
         }
         $fs=sprintf('<script>ke.init({%s})</script>',$vars);
-        $fs.='<script src="//'.$_SERVER['SERVER_NAME'].'/static/<?php echo request()->module();?>/module/<?php echo request()->controller();?>/<?php echo request()->action();?>.js"></script>';
+        $fs.='<script src="//'.$_SERVER['SERVER_NAME'].'/static/<?php echo request()->module();?>/module/<?php echo str_replace(\'.\',\'/\',strtolower(request()->controller()));?>/<?php echo request()->action();?>.js"></script>';
 
 
         return $fs;
