@@ -1,11 +1,4 @@
 
-require.config({
-	baseUrl: "/static/admin/module/",
-	urlArgs: 'ver='+new Date().getTime(),
-	paths: {
-	}
-});
-
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 axios.interceptors.request.use(
@@ -32,8 +25,33 @@ http={
 }
 
 ke={
-	init(options){
-		options.el='#app'
-		return new Vue(options)
+	data:{}
+}
+ke.init=function(menu){
+	ke.data=menu
+}
+ke.create=function(options){
+	options.el='#app'
+	var vars={}
+
+	// 全局方法
+	var methods={
+		// font awesome
+		iconFormat:function(type){
+			return 'fa fa-fw fa-'+type
+		}
 	}
+
+	if(typeof ke.data != 'undefined'){
+		vars=Object.assign(options.data,ke.data)
+	}
+	options.data=function(){
+		return vars
+	}
+	if(typeof options.methods != 'undefined'){
+		options.methods=Object.assign(options.methods,methods)
+	}else{
+		options.methods=methods
+	}
+	return new Vue(options)
 }

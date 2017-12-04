@@ -1,0 +1,9 @@
+ke.create({
+	data:{
+		me:'s'
+	},
+	methods:{
+	},
+	created(){
+	}
+})

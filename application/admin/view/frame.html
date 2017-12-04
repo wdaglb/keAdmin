@@ -6,12 +6,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title>{block name='title'}KE 后台管理{/block}</title>
     <link rel="stylesheet" href="//unpkg.com/element-ui@2.0.7/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{Ke:assets file='css/common.css'}">
+    <link rel="stylesheet" href="{Ke:assets file='css/frame.css'}">
     {block name='head'}{/block}
 </head>
 <body>
 <div id="app" v-cloak>
-{block name='body'}{/block}
+	<div class="header">
+		<div class="title">KE 后台管理</div>
+		<ul class="nav">
+			<li v-for="item in menulist">{{ item.title }}</li>
+		</ul>
+	</div>
+    <div class="sidebar">
+        <div class="title"><i :class="iconFormat('bars')"></i>&nbsp;菜单导航</div>
+        <ul v-if="menulist[curr].children">
+            <li v-for="item in menulist[curr].children"><i :class="iconFormat(item.icon)"></i>&nbsp;{{ item.title }}</li>
+        </ul>
+    </div>
+	{block name='body'}{/block}
 </div>
 
 
@@ -19,6 +33,6 @@
 <script src="//unpkg.com/axios@0.14.0/dist/axios.min.js"></script>
 <script src="//unpkg.com/element-ui@2.0.7/lib/index.js"></script>
 <script src="/static/js/common.js"></script>
-{Ke:init file=''}
+{Ke:init file='menulist,curr'}
 </body>
 </html>

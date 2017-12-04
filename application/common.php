@@ -16,3 +16,14 @@ function getForm($key='',$val=null)
         return $data;
     }
 }
+function rand_letter($length)
+{
+    $str='abcdefghijklmnopqrstuvwxyz0123456789';
+    $max=strlen($str);
+    $ret='';
+
+    for($i=0;$i<$length;$i++){
+        $ret.=substr($str,mt_rand(1,$max),1);
+    }
+    return $ret;
+}

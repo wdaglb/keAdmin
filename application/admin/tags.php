@@ -5,5 +5,9 @@
  */
 
 return [
-    'module_init'  => [\app\admin\behavior\Csrf::class,\app\admin\behavior\Auth::class],
+    'module_init'  => [
+        \app\admin\behavior\Csrf::class,
+        \app\admin\behavior\Auth::class,
+        \app\admin\behavior\Menu::class
+    ],
 ];
