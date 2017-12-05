@@ -25,5 +25,9 @@ class Controller extends \think\Controller
     {
         return $this->request->isSsl();
     }
+    protected function isAjax()
+    {
+        return $this->request->isAjax();
+    }
 
 }

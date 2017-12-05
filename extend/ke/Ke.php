@@ -6,6 +6,8 @@
 
 namespace ke;
 
+use think\App;
+
 class Ke extends \think\template\TagLib
 {
 
@@ -33,12 +35,19 @@ class Ke extends \think\template\TagLib
             foreach ($tmp as $item){
                 $key=$item;
                 $name=$this->autoBuildVar($item);
+                $vars.='<?php if(isset('.$name.')):?>';
                 $vars.=$key.':<?php echo (is_array('.$name.') ? json_encode('.$name.') : '.$name.');?>,';
+                $vars.='<?php endif;?> ';
             }
             $vars=substr($vars,0,strlen($vars)-1);
         }
         $fs=sprintf('<script>ke.init({%s})</script>',$vars);
-        $fs.='<script src="//'.$_SERVER['SERVER_NAME'].'/static/<?php echo request()->module();?>/module/<?php echo str_replace(\'.\',\'/\',strtolower(request()->controller()));?>/<?php echo request()->action();?>.js"></script>';
+        $src='//'.$_SERVER['SERVER_NAME'].'/static/<?php echo request()->module();?>/module/<?php echo str_replace(\'.\',\'/\',strtolower(request()->controller()));?>/<?php echo request()->action();?>.js';
+        if(App::$debug){
+            $src.='?v='.$_SERVER['REQUEST_TIME'];
+        }
+
+        $fs.='<script src="'.$src.'"></script>';
 
 
         return $fs;

@@ -1,5 +1,27 @@
-{extend name='frame'}
+{extend name='layout'}
 {block name='body'}
-
-dsfasd
+<div class="row">
+	<div class="title">用户组管理</div>
+	<div class="nav">
+		<el-button @click="url('{url link='create'}')" size="small">新建用户组</el-button>
+	</div>
+</div>
+<el-row class="trees">
+  <el-col :span="12">
+  	<div class="m-l">
+		<el-tree
+		  :props="props"
+		  :load="loadNode"
+		  highlight-current
+		  node-key="id"
+		  :default-expanded-keys="[0]"
+		  @node-click="onNodeClick"
+		  lazy>
+		</el-tree>
+	</div>
+  </el-col>
+  <el-col :span="12">
+  	<p>可以无限子分组，但是建议最深3级分组最佳</p>
+  </el-col>
+</el-row>
 {/block}

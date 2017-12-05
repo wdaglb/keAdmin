@@ -4,6 +4,15 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 axios.interceptors.request.use(
 	config => {
 		config.headers['X-Requested-With']='XMLHttpRequest'
+
+		config.paramsSerializer=function(params) {
+			var p=''
+			for(var key in params){
+				p += key + '=' + params[key] + '&'
+			}
+			p = p.substring(0,p.length-1)
+			return p
+		}
 		return config
 	}
 )
@@ -16,11 +25,20 @@ axios.interceptors.response.use(
 http={
 	get(options){
 		var url=options.url || ''
-		axios.get(url).then(options.success).catch(options.fail)
+		axios.request({
+			method: 'get',
+			url: url,
+			params:options.params
+		}).then(options.success).catch(options.fail)
 	},
 	post(options){
 		var url=options.url || ''
-		axios.post(url,options.data).then(options.success).catch(options.fail)
+		axios.request({
+			method: 'post',
+			url: url,
+			params:options.params,
+			data: options.data
+		}).then(options.success).catch(options.fail)
 	}
 }
 
@@ -41,13 +59,17 @@ ke.create=function(options){
 			return 'fa fa-fw fa-'+type
 		},
 		onSidebar(item){
-			location.href=item.url
+			this.httpsrc = item.url
+		},
+		url(url){
+			top.vm.httpsrc = url
 		}
 	}
 
 	if(typeof ke.data != 'undefined'){
 		vars=Object.assign(options.data,ke.data)
 	}
+	vars.httpsrc=null
 	options.data=function(){
 		return vars
 	}
@@ -56,5 +78,5 @@ ke.create=function(options){
 	}else{
 		options.methods=methods
 	}
-	return new Vue(options)
+	vm=new Vue(options)
 }

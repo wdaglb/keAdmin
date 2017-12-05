@@ -12,6 +12,11 @@ ke.create({
 			],
 		}
 	},
+	created(){
+		if(top.location.href!=location.href){
+			top.location.href=location.href
+		}
+	},
 	methods:{
 		onLogin(){
 			http.post({

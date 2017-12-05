@@ -5,9 +5,39 @@ html,body,#app{
 	height:100%;
 	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
+#app{
+	margin-right:auto;
+	margin-left:auto;
+}
 [v-cloak]{
 	display: none;
 }
 label{
 	font-weight: 100;
+}
+
+.row{
+	padding:10px;
+	position: relative;
+	margin-bottom: 10px;
+	border-bottom: solid 1px #ddd;
+	.title{
+
+	}
+	.nav{
+		position: absolute;
+		right: 10px;
+		top:8px;
+	}
+}
+
+
+.trees{
+	.m-l{
+		display: block;
+		border:solid 1px #ddd;
+		border-radius: 4px;
+		margin:6px;
+		box-sizing:border-box;
+	}
 }

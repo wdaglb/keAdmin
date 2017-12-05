@@ -13,13 +13,13 @@
 </head>
 <body>
 <div id="app" v-cloak>
-	<div class="header">
+	<div class="header" v-if="menulist">
 		<div class="title">KE 后台管理</div>
 		<ul class="nav">
 			<li v-for="item in menulist">{{ item.title }}</li>
 		</ul>
 	</div>
-    <div class="sidebar">
+    <div class="sidebar" v-if="menulist">
         <div class="title"><i :class="iconFormat('bars')"></i>&nbsp;菜单导航</div>
         <ul v-if="menulist[curr].children">
             <li v-for="item in menulist[curr].children" @click="onSidebar(item)"><i :class="iconFormat(item.icon)"></i>&nbsp;{{ item.title }}</li>
