@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+$sideWidth:180px;
+
 .header{
 	height:50px;
 	line-height: 50px;
@@ -8,9 +10,10 @@
 
 	
 	.title{
-		padding:0 20px;
 		float: left;
 		font-size: 20px;
+		width:$sideWidth;
+		text-align: center;
 		border-right: solid 1px #2A2F32;
 	}
 
@@ -42,7 +45,7 @@
 	position: absolute;
 	top:50px;
 	bottom: 0px;
-	width: 180px;
+	width:$sideWidth;
 	color:#ddd;
 	font-size: 14px;
 	.title{
