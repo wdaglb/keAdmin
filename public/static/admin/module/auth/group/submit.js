@@ -3,7 +3,7 @@ ke.create({
 		form:{
 			name:null,
 			contnet:null,
-			valid:"0"
+			valid:0
 		},
 		rules:{
 			name: [
@@ -20,9 +20,9 @@ ke.create({
 					if(res.code === 0){
 						this.$message.error(res.msg)
 					}else{
-						this.$message.success(res.msg)
+						this.$message.success('信息保存成功')
 						setTimeout( () => {
-							this.url(res.url)
+							this.url(this.map.lists)
 						},1500)
 					}
 
@@ -35,5 +35,8 @@ ke.create({
 		}
 	},
 	created(){
+		if(this.data.item){
+			this.form=this.data.item
+		}
 	}
 })

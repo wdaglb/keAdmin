@@ -10,4 +10,8 @@ return [
         \app\admin\behavior\Auth::class,
         \app\admin\behavior\Menu::class
     ],
+
+    'view_begin'=>[
+        \app\admin\behavior\ModuleJs::class
+    ]
 ];

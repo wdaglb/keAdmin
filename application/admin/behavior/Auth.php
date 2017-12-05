@@ -38,10 +38,10 @@ class Auth extends Controller
                             Glo::set('adminInfo',$data);
                             $data->update_time=$_SERVER['REQUEST_TIME'];
                             $data->save();
-                            /*cookie('access',base64_encode(json_encode([
+                            cookie('access',base64_encode(json_encode([
                                 'token'=>$access->token,
                                 'id'=>$access->id
-                            ])),7200);*/
+                            ])),7200);
 
                             $request->adminInfo=$data;
                             return $data;

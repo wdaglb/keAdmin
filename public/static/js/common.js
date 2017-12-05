@@ -63,6 +63,12 @@ ke.create=function(options){
 		},
 		url(url){
 			top.vm.httpsrc = url
+		},
+		maps(url){
+			top.vm.httpsrc = this.map[url]
+		},
+		reload(){
+			location.reload()
 		}
 	}
 

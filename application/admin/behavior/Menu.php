@@ -48,8 +48,7 @@ class Menu extends Controller
         $i=$menu->create(['title'=>'系统']);
         $menu->add($i,'系统设置','setting/system',['icon'=>'cog']);
         $menu->add($i,'用户组管理','auth.group/lists',['icon'=>'group']);
-        $menu->add($i,'角色管理','auth.roles/lists',['icon'=>'graduation-cap']);
-        $menu->add($i,'管理员管理','auth.manage/lists',['icon'=>'magnet']);
+        $menu->add($i,'管理员管理','auth.manage/lists',['icon'=>'graduation-cap']);
         $menu->add($i,'管理日志','auth.log/lists',['icon'=>'file-text-o']);
         $menulist=$menu->toArray();
 
