@@ -1,0 +1,42 @@
+{extend name='layout'}
+{block name='body'}
+{Ke:seturl name='lists'}
+<div class="row">
+	<div class="title">添加管理员</div>
+	<div class="nav">
+		<el-button @click="maps('lists')" size="small">返回列表</el-button>
+	</div>
+</div>
+
+<el-row>
+  <el-col :span="16">
+	<el-form :model="form" :rules="rules" ref="form" label-width="160px">
+
+	  <el-form-item label="登录账号" prop="user">
+	    <el-input v-model="form.user"></el-input>
+	  </el-form-item>
+
+	  <el-form-item label="登录密码" prop="pass">
+	    <el-input v-model="form.pass" type="password" :placeholder="passtext"></el-input>
+	  </el-form-item>
+
+	  <el-form-item label="角色权限" prop="pass">
+			<el-select v-model="form.group_id" placeholder="请选择">
+				<el-option
+				  v-for="item in data.rolelist"
+				  :label="item.name"
+				  :value="item.id">
+				</el-option>
+			</el-select>
+	  </el-form-item>
+
+
+
+	  <el-form-item>
+	    <el-button type="primary" @click="submitForm">保存信息</el-button>
+	    <el-button @click="resetForm">重置</el-button>
+	  </el-form-item>
+	</el-form>
+  </el-col>
+</el-row>
+{/block}

@@ -1,23 +1,69 @@
 {extend name='layout'}
 {block name='body'}
-{Ke:seturl name='create,edit,delete,listsRole,createRole,editRole,deleteRole'}
+{Ke:seturl name='create,edit,delete'}
 <div class="row">
 	<div class="title">管理员管理</div>
 	<div class="nav">
+    <el-button @click="maps('create')" type="info" size="small">添加管理</el-button>
 	</div>
 </div>
-<el-table
-  v-loading="loadList"
-  :data="list"
-  border
-  stripe>
-    <el-table-column type="index" width="55">
-	</el-table-column>
-  <el-table-column prop="group" label="分组" width="100">
+<div class="margin-li">
+
+  <!-- 筛选框 start -->
+  <el-form :inline="true" :model="search" size="mini">
+
+
+    <el-form-item label="关键词">
+      <el-input v-model="search.key" @keyup.enter.native="onSearch" placeholder="ID/账号"></el-input>
+    </el-form-item>
+
+    <el-form-item>
+      <el-button type="primary" @click="onSearch">筛选</el-button>
+    </el-form-item>
+  </el-form>
+  <!-- 筛选框 end -->
+
+
+  <el-table
+    v-loading="loadList"
+    :data="list"
+    border
+    stripe>
+      <el-table-column prop="id" label="ID" width="55">
   	</el-table-column>
-  <el-table-column prop="name" label="角色名称" width="100">
-  	</el-table-column>
-  <el-table-column prop="content" label="备注">
-  	</el-table-column>
-</el-table>
+    <el-table-column prop="group" label="角色" width="100">
+    	</el-table-column>
+    <el-table-column prop="user" label="登录账号">
+    	</el-table-column>
+    <el-table-column prop="update_time" label="最后活跃" width="160">
+      </el-table-column>
+    <el-table-column prop="create_time" label="创建时间" width="160">
+      </el-table-column>
+    <el-table-column label="操作" width="160">
+        <template slot-scope="scope">
+          <el-button size="mini"
+            @click="maps('edit',{ id:scope.row.id })">编辑</el-button>
+          <el-button size="mini" type="danger"
+            @click="onDelete(scope.row.id)">删除</el-button>
+        </template>
+      </el-table-column>
+
+  </el-table>
+
+
+
+
+  <!-- 分页 start -->
+  <div class="block">
+    <el-pagination
+      layout="sizes, total, prev, pager, next, jumper"
+      :page-sizes="[10, 20, 50, 100]"
+      :page-size="size"
+      :total="total"
+      @size-change="tabSize"
+      @current-change="loadLists">
+    </el-pagination>
+  </div>
+  <!-- 分页 end -->
+</div>
 {/block}

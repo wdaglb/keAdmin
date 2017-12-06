@@ -134,7 +134,7 @@ class GroupController extends Controller
      */
     public function delete()
     {
-        $id=input('post.id',0,'intval');
+        $id=getForm('id');
         if(empty($id)){
             $this->error('分组不存在','lists');
         }
@@ -302,7 +302,7 @@ class GroupController extends Controller
         }
         if(!$data) $data=new AdminRole;
         $data->name=$form['name'];
-        $data->group_id=empty($form['group_id']) ? 0 : $form['group_id'];
+        $data->group_id=empty($form['parent_id']) ? 0 : $form['parent_id'];
         $data->content=isset($form['content']) ? $form['content'] : '';
         $data->save();
         $id=empty($data->id) ? $data->insertGetId() : $data->id;
@@ -326,7 +326,7 @@ class GroupController extends Controller
      */
     public function deleterole()
     {
-        $id=input('post.id',0,'intval');
+        $id=getForm('id');
         if(empty($id)){
             $this->error('角色不存在','lists');
         }

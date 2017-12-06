@@ -23,4 +23,12 @@ class Admin extends Model
         return md5($input.sha1($private));
     }
 
+    public function groups()
+    {
+        return $this->hasOne('AdminRole','id','group_id')->bind([
+            'group'=>'name'
+        ]);
+
+    }
+
 }

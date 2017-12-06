@@ -9,6 +9,16 @@ var inArray=function(arr){
 String.prototype.inArray = inArray
 Number.prototype.inArray = inArray
 
+window.onload=function(){
+	// 拦截element-ui单个表单回车提交事件
+	var s=document.getElementsByClassName('el-form')
+	for(var i=0;i<s.length;i++){
+		s[i].onsubmit=function(){
+			return false
+		}
+	}
+}
+
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 axios.interceptors.request.use(
@@ -74,11 +84,25 @@ ke.create=function(options){
 		url(url){
 			top.vm.httpsrc = url
 		},
-		maps(url){
-			top.vm.httpsrc = this.map[url]
+		maps(url,params){
+			var u = this.map[url]
+			if(params){
+				u += '?'
+				for(var k in params){
+					u += k + '=' + params[k] + '&'
+				}
+				u = u.substring(0,u.length-1)
+			}
+
+			top.vm.httpsrc = u
+
 		},
 		reload(){
 			location.reload()
+		},
+		scrollTop(){
+			document.body.scrollTop = 0
+			document.documentElement.scrollTop = 0
 		}
 	}
 

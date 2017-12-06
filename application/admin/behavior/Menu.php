@@ -37,11 +37,16 @@ class MenuManage
     {
         return $this->list;
     }
+
+    public function close()
+    {
+        unset($this->list);
+    }
 }
 
 class Menu extends Controller
 {
-    public function run(&$request)
+    public function run()
     {
         $menu=new MenuManage();
 
@@ -50,10 +55,12 @@ class Menu extends Controller
         $menu->add($i,'权限管理','auth.group/lists',['icon'=>'vcard-o']);
         $menu->add($i,'管理员管理','auth.manage/lists',['icon'=>'address-book-o']);
         $menu->add($i,'管理日志','auth.log/lists',['icon'=>'file-text-o']);
-        $menulist=$menu->toArray();
 
-        $this->assign('menulist',$menulist);
+        $this->assign('menulist',$menu->toArray());
         $this->assign('curr',0);
+
+        $menu->close();
+        unset($menu);
 
 
     }
