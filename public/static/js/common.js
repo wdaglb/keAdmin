@@ -1,3 +1,13 @@
+var inArray=function(arr){
+	for(var i=0;i<arr.length;i++){
+		if(this==arr[i]){
+			return true
+		}
+	}
+	return false
+}
+String.prototype.inArray = inArray
+Number.prototype.inArray = inArray
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -72,8 +82,12 @@ ke.create=function(options){
 		}
 	}
 
-	if(typeof ke.data != 'undefined'){
-		vars=Object.assign(options.data,ke.data)
+	if(options.data){
+		if(typeof ke.data != 'undefined'){
+			vars=Object.assign(options.data,ke.data)
+		}
+	}else{
+		vars=ke.data
 	}
 	vars.httpsrc=null
 	options.data=function(){

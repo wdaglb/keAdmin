@@ -3,8 +3,9 @@ ke.create({
 		form:{
 			name:null,
 			contnet:null,
+			parent_id:0,
 			valid:0,
-			parent_id:0
+			auth:[]
 		},
 		rules:{
 			name: [
@@ -14,6 +15,9 @@ ke.create({
 		}
 	},
 	methods:{
+		returnLists(){
+			this.url(this.map.lists+'?pid='+this.data.parent.id)
+		},
 		submitForm(){
 			http.post({
 				data:this.form,
@@ -33,6 +37,29 @@ ke.create({
 		},
 		resetForm(){
 			this.$refs['form'].resetFields();
+		},
+		onAuthChange(index,indexs){
+			var all = this.data.rule[index]
+
+			if(typeof indexs!='undefined'){
+				// 判断同胞是否有选择的项
+				console.log(all.children)
+				var bo=false
+				for(var key in all.children){
+					if(this.form.auth[all.children[key].id]){
+						bo=true
+						break;
+					}
+				}
+				// 上级选择
+				this.form.auth[all.children[indexs].parent_id]=bo
+
+			}else{
+				// 全选
+				for(var key in all.children){
+					this.form.auth[all.children[key].id] = this.form.auth[all.id]
+				}
+			}
 		}
 	},
 	created(){

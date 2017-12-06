@@ -1,17 +1,17 @@
 {extend name='layout'}
 {block name='body'}
-{Ke:seturl name='create,edit,delete'}
+{Ke:seturl name='create,edit,delete,listsRole,createRole,editRole,deleteRole'}
 <div class="row">
-	<div class="title">用户组管理</div>
+	<div class="title">权限管理</div>
 	<div class="nav">
 	</div>
 </div>
 <el-row class="trees">
   <el-col :span="6">
   	<el-button-group style="margin:0 10px;">
-    	<el-button size="small" type="info" @click="onCreate">新建分组</el-button>
-    	<el-button size="small" type="warning" @click="onEdit" :disabled="onAction">编辑</el-button>
-    	<el-button size="small" type="danger" @click="onDelete" :disabled="onAction">删除</el-button>
+    	<el-button size="small" type="info" @click="onCreate(0)">新建分组</el-button>
+    	<el-button size="small" type="warning" @click="onEdit(0)" :disabled="onAction">编辑</el-button>
+    	<el-button size="small" type="danger" @click="onDelete(0)" :disabled="onAction">删除</el-button>
 
     </el-button-group>
   	<div class="m-l">
@@ -28,22 +28,23 @@
   </el-col>
   <el-col :span="18">
   	<el-button-group style="margin:0 10px;;margin-bottom: 6px;">
-    	<el-button size="small" type="info" @click="onCreate">新建角色</el-button>
-    	<el-button size="small" type="warning" @click="onEdit" :disabled="onAction">编辑</el-button>
-    	<el-button size="small" type="danger" @click="onDelete" :disabled="onAction">删除</el-button>
+    	<el-button size="small" type="info" @click="onCreate(1)">新建角色</el-button>
+    	<el-button size="small" type="warning" @click="onEdit(1)" :disabled="onRoleAction">编辑</el-button>
+    	<el-button size="small" type="danger" @click="onDelete(1)" :disabled="onRoleAction">删除</el-button>
 
     </el-button-group>
     <el-table
+    v-loading="loadList"
     :data="rolelist"
     border
-    stripe>
-        <el-table-column type="selection" width="55">
+    stripe
+    highlight-current-row
+    @current-change="onTableChange">
+        <el-table-column type="index" width="55">
 			</el-table-column>
 	    <el-table-column prop="group" label="分组" width="100">
 	    	</el-table-column>
 	    <el-table-column prop="name" label="角色名称" width="100">
-	    	</el-table-column>
-	    <el-table-column prop="valid" label="是否生效" width="100">
 	    	</el-table-column>
 	    <el-table-column prop="content" label="备注">
 	    	</el-table-column>
