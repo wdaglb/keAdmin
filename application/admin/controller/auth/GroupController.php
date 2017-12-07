@@ -25,9 +25,6 @@ class GroupController extends Controller
         if($this->isAjax()){
             $parent_id=input('get.pid',0);
             $list=AdminGroup::where('parent_id',$parent_id)->select();
-            foreach ($list as &$g){
-                $g->leaf=$g->leaf;
-            }
 
             $this->result(['list'=>$list]);
         }

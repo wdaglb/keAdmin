@@ -13,6 +13,8 @@ class AdminGroup extends Model
 {
     protected $autoWriteTimestamp=true;
 
+    protected $append=['leaf'];
+
     public function getLeafAttr()
     {
         return is_numeric($this->where('parent_id',$this->getAttr('id'))->value('id')) ? false : true;

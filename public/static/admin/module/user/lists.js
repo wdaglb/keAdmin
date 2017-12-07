@@ -6,7 +6,23 @@ ke.create({
 		size:20,
 
 		search:{
-			key:''
+			key:'',
+			sex:-1,
+			status:-1,
+			age:[0,99]
+		},
+
+		dialog:{
+			status:false,
+			form:{},
+			rules:{
+				value:[
+					{ required: true, message: '请输入充值数值', trigger: 'blur' }
+				]
+			},
+			title:null,
+			label:null,
+			post:null
 		}
 	},
 	methods:{
@@ -33,6 +49,60 @@ ke.create({
 					}
 				}
 			})
+		},
+		onUserAction(obj){
+			switch (obj.type) {
+				case 'money':
+					this.dialog.status = true
+					this.dialog.title = '充值金额'
+					this.dialog.label = '金额'
+					this.dialog.form.id = obj.item.id
+					this.dialog.post = this.map.money
+
+					break;
+				case 'integral':
+					this.dialog.status = true
+					this.dialog.title = '充值积分'
+					this.dialog.label = '数值'
+					this.dialog.form.id = obj.item.id
+					this.dialog.post = this.map.integral
+
+					break;
+				case 'edit':
+					this.maps('edit', {id: obj.item.id})
+					break;
+				case 'delete':
+					this.onDelete(obj.item.id)
+					break;
+				default:
+					break;
+			}
+		},
+		onDialogResetFields(){
+			this.$refs['dialogForm'].resetFields()
+		},
+		onDialogSubmit(type){
+			if(type){
+				this.$refs['dialogForm'].validate((valid) => {
+					if (valid) {
+						http.post({
+							url: this.dialog.post,
+							data: this.dialog.form,
+							success:(res) => {
+								if(res.code===0){
+									this.$message.error(res.msg)
+								}else{
+									this.$message.success('充值成功')
+									this.dialog.status = false
+								}
+							}
+						})
+					}
+				})
+			}else{
+				this.dialog.status = false
+			}
+
 		},
 		onDelete(id){
 			this.$confirm('此操作将彻底删除该记录，是否继续？','提示').then(() => {

@@ -57,3 +57,34 @@ a{
 	font-size: 0.8em;
 	color:#e08;
 }
+
+
+
+// 重定义表单label *的位置 
+.el-form .el-form-item.is-required .el-form-item__label{
+	position: relative;
+	display:block;
+	&:before{
+		margin-top:6px !important;
+		position:absolute;
+		top:-3px;
+		right:0;
+	}
+}
+
+// 更改tag显示手势
+.el-tag,.el-dropdown-link{
+	cursor: pointer;
+}
+
+// 输入段
+.el-form{
+	.input-duan{
+		.el-input{
+			width:60px;
+			.el-input__inner{
+				text-align: center;
+			}
+		}
+	}
+}

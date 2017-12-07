@@ -1,6 +1,6 @@
 {extend name='layout'}
 {block name='body'}
-{Ke:seturl name='create,edit,delete'}
+{Ke:seturl name='create,edit,delete,money,integral'}
 <div class="row">
 	<div class="title">会员管理</div>
 </div>
@@ -12,6 +12,31 @@
 
     <el-form-item label="关键词">
       <el-input v-model="search.key" @keyup.enter.native="onSearch" placeholder="ID/账号/昵称"></el-input>
+    </el-form-item>
+
+
+    <el-form-item label="性别">
+      <el-select v-model="search.sex" style="width:80px">
+        <el-option :value="-1" label="全部"></el-option>
+        <el-option :value="0" label="女"></el-option>
+        <el-option :value="1" label="男"></el-option>
+      </el-select>
+    </el-form-item>
+
+    <el-form-item label="状态">
+      <el-select v-model="search.status" style="width:80px">
+        <el-option :value="-1" label="全部"></el-option>
+        <el-option :value="0" label="正常"></el-option>
+        <el-option :value="1" label="锁定"></el-option>
+      </el-select>
+    </el-form-item>
+
+    <el-form-item label="年龄段" class="input-duan">
+      <el-form-item>
+        <el-input v-model="search.age[0]" @keyup.enter.native="onSearch"></el-input>
+        -
+        <el-input v-model="search.age[1]" @keyup.enter.native="onSearch"></el-input>
+      </el-form-item>
     </el-form-item>
 
     <el-form-item>
@@ -26,7 +51,7 @@
     :data="list"
     border
     stripe>
-      <el-table-column prop="id" label="UID" width="180">
+      <el-table-column prop="id" label="UID" width="80" align="center">
   	</el-table-column>
     <el-table-column prop="group" label="用户组" width="100">
     	</el-table-column>
@@ -47,18 +72,27 @@
       </el-table-column>
     <el-table-column prop="money" label="余额" width="80" align="center">
       </el-table-column>
+    <el-table-column prop="integral" label="积分" width="80" align="center">
+      </el-table-column>
     <el-table-column label="状态" width="80" align="center">
       <template slot-scope="item">
-        <el-tag type="info" v-if="item.row.status = 0">正常</el-tag>
-        <el-tag type="danger" else>锁定</el-tag>
+        <el-tag type="info" v-if="item.row.status == 0">正常</el-tag>
+        <el-tag type="danger" v-else>锁定</el-tag>
       </template>
       </el-table-column>
-    <el-table-column label="操作" width="160">
+    <el-table-column label="操作" width="80">
         <template slot-scope="scope">
-          <el-button size="mini"
-            @click="maps('edit',{ id:scope.row.id })">编辑</el-button>
-          <el-button size="mini" type="danger"
-            @click="onDelete(scope.row.id)">删除</el-button>
+          <el-dropdown trigger="click" @command="onUserAction">
+            <span class="el-dropdown-link">
+              操作<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item :command="{ type: 'money', item:scope.row }">充值金额</el-dropdown-item>
+              <el-dropdown-item :command="{ type: 'integral', item:scope.row }">充值积分</el-dropdown-item>
+              <el-dropdown-item :command="{ type: 'edit', item:scope.row }">编辑</el-dropdown-item>
+              <el-dropdown-item :command="{ type: 'delete', item:scope.row }">删除</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
 
@@ -80,4 +114,22 @@
   </div>
   <!-- 分页 end -->
 </div>
+
+<!-- 充值窗口 start -->
+<el-dialog :title="dialog.title" :visible.sync="dialog.status"
+    :close-on-click-modal="false"
+    width="400px"
+    @close="onDialogResetFields"
+    @before-close="onDialogResetFields">
+  <el-form :model="dialog.form" :rules="dialog.rules" ref="dialogForm">
+    <el-form-item :label="dialog.label" prop="value" label-width="60px">
+      <el-input v-model="dialog.form.value" auto-complete="off"></el-input>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="onDialogSubmit(0)">取 消</el-button>
+    <el-button type="primary" @click="onDialogSubmit(1)">确 定</el-button>
+  </div>
+</el-dialog>
+<!-- 充值窗口 end -->
 {/block}

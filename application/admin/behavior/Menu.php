@@ -65,6 +65,9 @@ class Menu extends Controller
             if($access->isAuth('user/lists')) {
                 $menu->add($i, '会员管理', 'user/lists', ['icon' => 'user']);
             }
+            if($access->isAuth('user.finance/lists')) {
+                $menu->add($i, '财务记录', 'user.finance/lists', ['icon' => 'retweet']);
+            }
         }
 
 

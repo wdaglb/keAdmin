@@ -8,6 +8,7 @@ namespace app\admin\controller\user;
 
 
 use app\admin\model\AdminLog;
+use app\common\model\Users;
 use app\common\model\UsersGroup;
 use ke\Controller;
 use think\Validate;
@@ -26,13 +27,12 @@ class GroupController extends Controller
 
             if($key!=''){
                 $where=function($rs) use($key){
-                    $rs->where('id|user',$key);
+                    $rs->where('name',$key);
                 };
             }
 
-            $list=UsersGroup::where($where)->limit($start,$size)->select();
+            $list=UsersGroup::withCount('users')->where($where)->limit($start,$size)->select();
             $total=UsersGroup::where($where)->count();
-
 
             $this->result(['list'=>$list,'total'=>$total]);
         }
@@ -53,15 +53,42 @@ class GroupController extends Controller
     }
 
     /**
+     * 编辑
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function edit()
+    {
+        $id=input('get.id',0,'intval');
+        if(empty($id)){
+            $this->error('会员组不存在');
+        }
+        $data=UsersGroup::where('id',$id)->find();
+        if(!$data){
+            $this->error('会员组不存在');
+        }
+        if($this->isPost()){
+            $this->submit($data);
+        }
+        $this->assign('data',[
+            'item'=>$data
+        ]);
+        return $this->fetch('submit');
+    }
+
+    /**
      * 保存内容
      * @param bool $data
      */
     private function submit($data=false)
     {
+        $create=!$data;
         $form=getForm();
         $vali=new Validate([
             'name|会员组名称'=>'require|max:20',
-            'integral|备注内容'=>'require|number'
+            'integral|需求积分'=>'require|number'
         ]);
         if(!$vali->check($form)){
             $this->error($vali->getError());
@@ -76,10 +103,41 @@ class GroupController extends Controller
         if(!$data) $data=new UsersGroup;
         $data->name=$form['name'];
         $data->integral=$form['integral'];
+        if($create){
+            $data->create_time=$_SERVER['REQUEST_TIME'];
+        }
         $data->save();
         $id=empty($data->id) ? $data->insertGetId() : $data->id;
         AdminLog::write('设置会员组ID：'.$id);
         $this->result(['id'=>$id]);
+    }
+
+    /**
+     * 更新用户会员组数据
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function update()
+    {
+        $list=Users::where('integral','>',0)->field('id,integral')->select();
+        $n=0;
+        foreach ($list as $g){
+            $group=UsersGroup::field('id,integral')->where('integral','<=',$g->integral)->order('integral','desc')->value('id');
+            if($group){
+                $g->group_id=$group;
+                if($g->save()){
+                    $n++;
+                }
+            }
+        }
+        if($n){
+            $this->result(['num'=>$n]);
+        }else{
+            $this->error('没有用户需要更新');
+        }
+
+
     }
 
 }

@@ -11,21 +11,27 @@ use think\Model;
 
 class Users extends Model
 {
-    public static function add($data)
-    {
-        $s=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-        $id=$s[date('Y')-2017].$_SERVER['REQUEST_TIME'].str_pad(mt_rand(0,99999999),8,'0');
-        $r=new self;
-        $data['id']=$id;
-        $data['create_time']=$_SERVER['REQUEST_TIME'];
-        return $r->save($data);
-    }
-
+    protected $append=['group'];
     public function setPassAttr($input)
     {
         $private=rand_letter(10);
         $this->setAttr('private',$private);
         return md5($input.sha1($private));
+    }
+
+    public function getGroupAttr()
+    {
+        $g=UsersGroup::where('id',$this->getAttr('group_id'))->value('name');
+        return $g ? $g : '未知用户组';
+    }
+
+    public function setIntegralAttr($input)
+    {
+        $group=UsersGroup::field('id,integral')->where('integral','<=',$input)->order('integral','desc')->value('id');
+        if($group){
+            $this->setAttr('group_id',$group);
+        }
+        return $input;
     }
 
 }

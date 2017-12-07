@@ -11,5 +11,10 @@ use think\Model;
 
 class UsersGroup extends Model
 {
+    public function users()
+    {
+        return $this->hasMany('Users','group_id','id');
+
+    }
 
 }

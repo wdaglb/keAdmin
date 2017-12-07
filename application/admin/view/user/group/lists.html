@@ -1,10 +1,11 @@
 {extend name='layout'}
 {block name='body'}
-{Ke:seturl name='create,edit,delete'}
+{Ke:seturl name='create,edit,delete,update'}
 <div class="row">
 	<div class="title">会员组管理</div>
 	<div class="nav">
-		<el-button type="info" size="mini" @click="maps('create')"><i :class="iconFormat('plus')"></i>&nbsp;添加会员组</el-button>
+    <el-button type="info" size="mini" @click="maps('create')"><i :class="iconFormat('plus')"></i>&nbsp;添加会员组</el-button>
+    <el-button type="info" size="mini" @click="onUpdateUserInfo"><i :class="iconFormat('refresh')"></i>&nbsp;更新用户会员组数据</el-button>
 	</div>
 </div>
 <div class="margin-li">
@@ -33,7 +34,7 @@
   	</el-table-column>
     <el-table-column prop="name" label="会员组名称">
     	</el-table-column>
-    <el-table-column prop="userNum" label="会员数" width="100">
+    <el-table-column prop="users_count" label="会员数" width="100">
       </el-table-column>
     <el-table-column prop="integral" label="所需积分" width="100">
       </el-table-column>
@@ -63,5 +64,6 @@
     </el-pagination>
   </div>
   <!-- 分页 end -->
+
 </div>
 {/block}
