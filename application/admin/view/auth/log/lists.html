@@ -1,6 +1,7 @@
 {extend name='layout'}
 {block name='body'}
 {Ke:seturl name='create,edit,delete'}
+{Ke:seturl name='manageEdit' link='auth.manage/edit'}
 <div class="row">
   <div class="title">管理操作日志</div>
   <div class="nav">
@@ -42,9 +43,12 @@
     :data="list"
     border
     stripe>
-    <el-table-column prop="id" label="ActionID" width="200">
+    <el-table-column prop="id" label="ActionID" width="240">
       </el-table-column>
     <el-table-column prop="user_id" label="管理ID" width="80">
+      <template slot-scope="scope">
+        <a @click="maps('manageEdit',{ id: scope.row.user_id })">{{ scope.row.user_id }}</a>
+      </template>
       </el-table-column>
     <el-table-column prop="create_time" label="操作时间" width="160">
       </el-table-column>

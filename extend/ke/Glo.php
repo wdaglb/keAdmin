@@ -14,6 +14,7 @@ class Glo
     public static function set($key,$value)
     {
         self::$vars[$key] = $value;
+        return $value;
     }
 
     public static function get($key,$value=null)

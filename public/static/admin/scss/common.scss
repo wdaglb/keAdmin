@@ -15,6 +15,14 @@ html,body,#app{
 label{
 	font-weight: 100;
 }
+a{
+	color:#66B1FF;
+	cursor: pointer;
+	text-decoration:none;
+	&:hover{
+		text-decoration: underline;
+	}
+}
 .margin-li{
 	margin:0 10px;
 }
@@ -43,4 +51,9 @@ label{
 		margin:6px;
 		box-sizing:border-box;
 	}
+}
+
+.help{
+	font-size: 0.8em;
+	color:#e08;
 }

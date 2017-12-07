@@ -104,5 +104,8 @@ ke.create({
 			title:'提示',
         	message: '日志只会保存最新的3000条'
         })
+        if(this.data.date){
+        	this.search.date=this.data.date
+        }
 	}
 })

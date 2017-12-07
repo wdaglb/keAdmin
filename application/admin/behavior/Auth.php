@@ -32,9 +32,9 @@ class Auth extends Controller
             if($data){
                 $access=json_decode(base64_decode($data));
                 if($access){
-                    $data=Admin::where('id',$access->id)->find();
+                    $data=Admin::where('id',$access->id)->field('pass,create_time,private',true)->find();
                     if($data){
-                        if($_SERVER['REQUEST_TIME']-$data->getData('update_time') < 7200){
+                        if($_SERVER['REQUEST_TIME']-$data->getData('update_time') < 7200 && $data->token===$access->token){
                             Glo::set('adminInfo',$data);
                             $data->update_time=$_SERVER['REQUEST_TIME'];
                             $data->save();

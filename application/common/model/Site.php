@@ -4,18 +4,12 @@
 // | Author King east To 1207877378@qq.com
 // +----------------------------------------------------------------------
 
-namespace app\admin\model;
+namespace app\common\model;
 
 
 use think\Model;
 
-class AdminRuleAccess extends Model
+class Site extends Model
 {
-    public function rule()
-    {
-        return $this->hasOne('AdminRule','id','rule_id')->bind([
-            'controller'
-        ]);
-    }
 
 }

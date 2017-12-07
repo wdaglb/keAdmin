@@ -12,12 +12,27 @@
     {block name='head'}{/block}
 </head>
 <body>
+{Ke:seturl name='logout' link='auth/logout'}
+{Ke:seturl name='login' link='auth/login'}
+{Ke:seturl name='adminEditPass' link='auth/pass'}
 <div id="app" v-cloak>
 	<div class="header" v-if="menulist">
 		<div class="title">KE 后台管理</div>
 		<ul class="nav">
-			<li v-for="item in menulist">{{ item.title }}</li>
+			<li v-for="(item,index) in menulist" @click="onTopNav(index)">{{ item.title }}</li>
 		</ul>
+        <div class="pull-right">
+            <el-dropdown class="right-nav" style="margin-right: 15px;"
+                 @command="onCommand">
+              <span class="el-dropdown-link" style="color:#f3f3f3">
+                {{ admin.user }}&nbsp;<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="editpass">修改密码</el-dropdown-item>
+                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+        </div>
 	</div>
     <div class="sidebar" v-if="menulist">
         <div class="title"><i :class="iconFormat('bars')"></i>&nbsp;菜单导航</div>
@@ -35,6 +50,6 @@
 <script src="//unpkg.com/axios@0.14.0/dist/axios.min.js"></script>
 <script src="//unpkg.com/element-ui@2.0.7/lib/index.js"></script>
 <script src="/static/js/common.js"></script>
-{Ke:init var='menulist,curr'}
+{Ke:init var='data,menulist,curr'}
 </body>
 </html>

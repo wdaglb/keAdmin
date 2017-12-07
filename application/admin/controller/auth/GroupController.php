@@ -10,10 +10,12 @@ namespace app\admin\controller\auth;
 
 use app\admin\model\Admin;
 use app\admin\model\AdminGroup;
+use app\admin\model\AdminLog;
 use app\admin\model\AdminRole;
 use app\admin\model\AdminRule;
 use app\admin\model\AdminRuleAccess;
 use ke\Controller;
+use think\Request;
 use think\Validate;
 
 class GroupController extends Controller
@@ -125,6 +127,7 @@ class GroupController extends Controller
         $data->valid=empty($form['valid']) ? 0 : 1;
         $data->save();
         $id=empty($data->id) ? $data->insertGetId() : $data->id;
+        AdminLog::write('设置分组ID：'.$id);
         $this->result(['id'=>$id]);
 
     }
@@ -143,6 +146,7 @@ class GroupController extends Controller
             $this->error('分组不存在','lists');
         }
         $data->delete();
+        AdminLog::write($request->adminInfo->id,'删除分组ID：'.$id);
         $this->result(['id'=>$id]);
 
     }
@@ -318,6 +322,7 @@ class GroupController extends Controller
                 }
             }
         }
+        AdminLog::write('设置角色ID：'.$id);
         $this->result(['id'=>$id]);
     }
 
@@ -336,6 +341,7 @@ class GroupController extends Controller
         }
         $data->delete();
         AdminRuleAccess::where('role_id',$id)->delete();
+        AdminLog::write('删除角色ID：'.$id);
         $this->result(['id'=>$id]);
 
     }

@@ -8,11 +8,15 @@ namespace app\admin\controller;
 
 
 use ke\Controller;
+use think\Request;
 
 class IndexController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $this->assign('data',[
+            'admin'=>$request->adminInfo
+        ]);
 
         return $this->fetch();
     }

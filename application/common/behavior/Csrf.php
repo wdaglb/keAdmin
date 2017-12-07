@@ -4,7 +4,7 @@
  * [Author] King east ( 1207877378@qq.com )
  */
 
-namespace app\admin\behavior;
+namespace app\common\behavior;
 
 
 

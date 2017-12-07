@@ -8,6 +8,7 @@ namespace app\admin\behavior;
 
 
 use ke\Controller;
+use ke\Glo;
 
 class MenuManage
 {
@@ -46,15 +47,42 @@ class MenuManage
 
 class Menu extends Controller
 {
-    public function run()
+    public function run($request)
     {
+        $control=$request->controller() . '/' . $request->action();
+        if($control=='Auth/login'){
+            return;
+        }
         $menu=new MenuManage();
+        $access=Glo::get('AccessAction');
 
-        $i=$menu->create(['title'=>'系统']);
-        $menu->add($i,'系统设置','setting/system',['icon'=>'cog']);
-        $menu->add($i,'权限管理','auth.group/lists',['icon'=>'vcard-o']);
-        $menu->add($i,'管理员管理','auth.manage/lists',['icon'=>'address-book-o']);
-        $menu->add($i,'管理日志','auth.log/lists',['icon'=>'file-text-o']);
+
+        if($access->isAuth('user')) {
+            $i = $menu->create(['title' => '会员']);
+            if($access->isAuth('user.group/lists')) {
+                $menu->add($i, '会员组管理', 'user.group/lists', ['icon' => 'group']);
+            }
+            if($access->isAuth('user/lists')) {
+                $menu->add($i, '会员管理', 'user/lists', ['icon' => 'user']);
+            }
+        }
+
+
+        if($access->isAuth('sys')) {
+            $i = $menu->create(['title' => '系统']);
+            if($access->isAuth('setting/system')) {
+                $menu->add($i, '系统设置', 'setting/system', ['icon' => 'cog']);
+            }
+            if($access->isAuth('auth.group/lists')) {
+                $menu->add($i, '权限管理', 'auth.group/lists', ['icon' => 'vcard-o']);
+            }
+            if($access->isAuth('auth.manage/lists')) {
+                $menu->add($i, '管理员管理', 'auth.manage/lists', ['icon' => 'address-book-o']);
+            }
+            if($access->isAuth('auth.log/lists')) {
+                $menu->add($i, '管理日志', 'auth.log/lists', ['icon' => 'file-text-o']);
+            }
+        }
 
         $this->assign('menulist',$menu->toArray());
         $this->assign('curr',0);

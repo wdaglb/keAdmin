@@ -13,6 +13,4 @@ return [
     'path'      => '/admin',
     //  cookie 启用安全传输
     'secure'    => false,
-    // httponly设置
-    'httponly'  => '',
 ];

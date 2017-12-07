@@ -16,9 +16,16 @@ return [
     // 应用开始
     'app_begin'    => [],
     // 模块初始化
-    'module_init'  => [],
+    'module_init'  => [
+        \app\common\behavior\Csrf::class,
+        \app\common\behavior\ReadSiteInfo::class
+    ],
     // 操作开始执行
     'action_begin' => [],
+    // 视图开始
+    'view_begin'=>[
+        \app\common\behavior\ModuleJs::class
+    ],
     // 视图内容过滤
     'view_filter'  => [],
     // 日志写入

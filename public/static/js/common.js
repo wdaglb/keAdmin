@@ -78,6 +78,9 @@ ke.create=function(options){
 		iconFormat(type){
 			return 'fa fa-fw fa-'+type
 		},
+		onTopNav(index){
+			this.curr = index
+		},
 		onSidebar(item){
 			this.httpsrc = item.url
 		},

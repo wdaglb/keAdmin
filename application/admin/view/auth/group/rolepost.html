@@ -31,6 +31,7 @@
 				<el-checkbox v-for="(items,indexs) in item.children" @change="onAuthChange(item.id,items.id)" :key="items.id" v-model="form.auth[items.id]" :label="items.id">{{ items.title }}</el-checkbox>
 			</div>
 	  	</template>
+	  	<span class="help">不勾选则获得所有权限</span>
 	  </el-form-item>
 
 
