@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-12-08 00:15:50
+-- Generation Time: 2017-12-08 19:11:59
 -- 服务器版本： 10.1.8-MariaDB
 -- PHP Version: 5.6.14
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `ke_admin` (
 --
 
 INSERT INTO `ke_admin` (`id`, `user`, `pass`, `private`, `token`, `group_id`, `create_time`, `update_time`) VALUES
-(1, 'admin', '3718f0c9dff9225fed36c7038453d1c9', 'ewh5ixpeu6', '524b4bd1d31f65752944ba5b36b3563e', 4, 1512359668, 1512662448),
+(1, 'admin', '3718f0c9dff9225fed36c7038453d1c9', 'ewh5ixpeu6', '7ca5b38ff3f30f645b55aaf58bcfe258', 4, 1512359668, 1512696437),
 (2, 'wdaglb', 'fa0c9b4d94cb1c15a019de4e6ae3944a', 'uheqhx9zc8', '', 4, 0, 0),
 (3, 'admins', '14f0aead929248e2947f13911952e186', '8qzmmsuuuz', '', 4, 0, 1512565097),
 (5, 'admin0', 'a', '', '', 5, 1512567061, 0),
@@ -424,7 +424,9 @@ INSERT INTO `ke_admin_log` (`id`, `desc`, `user_id`, `create_time`) VALUES
 ('5a2941aaaf898212706534210', '修改会员ID：1', 1, 1512653226),
 ('5a294e4a12110222057137320', '修改会员ID：1', 1, 1512656457),
 ('5a29535ae3c88224234359840', '修改会员ID：1', 1, 1512657754),
-('5a2960f36e1b8234035727010', '设置角色ID：4', 1, 1512661235);
+('5a2960f36e1b8234035727010', '设置角色ID：4', 1, 1512661235),
+('5a29e5536f38b090523285040', '登录系统', 1, 1512695123),
+('5a29e86213f58091825597090', '登录系统', 1, 1512695905);
 
 -- --------------------------------------------------------
 
