@@ -1,0 +1,117 @@
+{extend name='layout'}
+{block name='body'}
+{Ke:seturl name='create,edit,delete'}
+{Ke:seturl name='users' link='user/edit'}
+<div class="row">
+	<div class="title">财务管理</div>
+</div>
+<div class="margin-li">
+
+  <!-- 筛选框 start -->
+  <el-form :inline="true" :model="search" size="mini">
+
+
+    <el-form-item label="关键词">
+      <el-input v-model="search.key" @keyup.enter.native="onSearch" placeholder="订单ID/会员ID"></el-input>
+    </el-form-item>
+
+
+    <el-form-item label="状态">
+      <el-select v-model="search.status" style="width:100px">
+        <el-option :value="-1" label="全部"></el-option>
+        <el-option :value="0" label="未付款"></el-option>
+        <el-option :value="-2" label="已关闭"></el-option>
+        <el-option :value="1" label="已完成"></el-option>
+      </el-select>
+    </el-form-item>
+
+
+    <el-form-item label="类型">
+      <el-select v-model="search.types" style="width:80px">
+        <el-option :value="-1" label="全部"></el-option>
+        <el-option :value="0" label="金额"></el-option>
+        <el-option :value="1" label="积分"></el-option>
+      </el-select>
+    </el-form-item>
+
+    <el-form-item label="金额" class="input-duan">
+      <el-form-item>
+        <el-input v-model="search.money[0]" @keyup.enter.native="onSearch"></el-input>
+        -
+        <el-input v-model="search.money[1]" @keyup.enter.native="onSearch"></el-input>
+      </el-form-item>
+    </el-form-item>
+
+    <el-form-item>
+      <el-button type="primary" @click="onSearch">筛选</el-button>
+    </el-form-item>
+  </el-form>
+  <!-- 筛选框 end -->
+
+
+  <el-table
+    v-loading="loadList"
+    :data="list"
+    border
+    stripe>
+      <el-table-column prop="id" label="订单ID" width="300" align="center">
+  	</el-table-column>
+    <el-table-column label="会员ID" width="80" align="center">
+      <template slot-scope="item">
+        <a @click="maps('users',{id:item.row.user_id})">{{ item.row.user_id }}</a>
+      </template>
+      </el-table-column>
+    <el-table-column prop="money" label="金额" width="80" align="center">
+      </el-table-column>
+    <el-table-column prop="create_time" label="操作时间" width="160">
+      </el-table-column>
+    <el-table-column prop="typesName" label="类型" width="80" align="center">
+      </el-table-column>
+    <el-table-column prop="payTypes" label="付款类型" width="120" align="center">
+      </el-table-column>
+    <el-table-column prop="status" label="状态" width="80" align="center">
+      <template slot-scope="item">
+        <span v-if="item.row.status == 0">未付款</span>
+        <span v-else-if="item.row.status == 1">已完成</span>
+        <span v-else-if="item.row.status == -2">已关闭</span>
+      </template>
+      </el-table-column>
+    <el-table-column prop="desc" label="备注">
+      </el-table-column>
+  </el-table>
+
+
+
+
+  <!-- 分页 start -->
+  <div class="block">
+    <el-pagination
+      layout="sizes, total, prev, pager, next, jumper"
+      :page-sizes="[10, 20, 50, 100]"
+      :page-size="size"
+      :total="total"
+      @size-change="tabSize"
+      @current-change="loadLists">
+    </el-pagination>
+  </div>
+  <!-- 分页 end -->
+</div>
+
+<!-- 充值窗口 start -->
+<el-dialog :title="dialog.title" :visible.sync="dialog.status"
+    :close-on-click-modal="false"
+    width="400px"
+    @close="onDialogResetFields"
+    @before-close="onDialogResetFields">
+  <el-form :model="dialog.form" :rules="dialog.rules" ref="dialogForm">
+    <el-form-item :label="dialog.label" prop="value" label-width="60px">
+      <el-input v-model="dialog.form.value" auto-complete="off"></el-input>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="onDialogSubmit(0)">取 消</el-button>
+    <el-button type="primary" @click="onDialogSubmit(1)">确 定</el-button>
+  </div>
+</el-dialog>
+<!-- 充值窗口 end -->
+{/block}

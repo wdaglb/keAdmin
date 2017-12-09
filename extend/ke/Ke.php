@@ -14,15 +14,19 @@ class Ke extends \think\template\TagLib
     // 标签定义
     protected $tags = [
         // 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
-        'assets'=>['attr'=>'file', 'close' => 0],
+        'assets'=>['attr'=>'file,module', 'close' => 0],
 
         'init'=>['attr'=>'var','close'=>0],
-        'seturl'=>['attr'=>'name,link','close'=>0],
+        'seturl'=>['attr'=>'name,link,ext','close'=>0],
     ];
 
     public function tagAssets($attr,$content)
     {
-        return '//'.$_SERVER['SERVER_NAME'].'/static/<?php echo request()->module();?>/'.$attr['file'];
+        if(isset($attr['module']) && $attr['module']=='false'){
+            return '//'.$_SERVER['SERVER_NAME'].'/static/'.$attr['file'];
+        }else{
+            return '//'.$_SERVER['SERVER_NAME'].'/static/<?php echo request()->module();?>/'.$attr['file'];
+        }
     }
 
     public function tagSeturl($attr,$content)
@@ -31,7 +35,12 @@ class Ke extends \think\template\TagLib
             if(!isset($attr['link'])){
                 $attr['link']=$attr['name'];
             }
-            $echo=sprintf('<?php $__K_TO_VUE_URLS[\'%1$s\']=url(\'%2$s\');?>',$attr['name'],$attr['link']);
+            if(isset($attr['ext'])) {
+                $attr['ext']='\''.$attr['ext'].'\'';
+            }else{
+                $attr['ext']='\'.\'.config(\'url_html_suffix\')';
+            }
+            $echo=sprintf('<?php $__K_TO_VUE_URLS[\'%1$s\']=url(\'%2$s\',[],%3$s);?>',$attr['name'],$attr['link'],$attr['ext']);
         }else{
             $li=explode(',',$attr['name']);
             $echo='<?php ';

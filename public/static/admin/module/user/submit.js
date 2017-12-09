@@ -1,5 +1,6 @@
 ke.create({
 	data:{
+		headimg:null,
 		form:{},
 		rules:{
 			name: [
@@ -42,11 +43,46 @@ ke.create({
 		},
 		resetForm(){
 			this.$refs['form'].resetFields();
+		},
+		handleAvatarSuccess(res, file) {
+			console.log(res)
+			this.headimg = URL.createObjectURL(file.raw);
+		},
+		onUploadStart(data){
+			var file=data.file
+			var isLt2M = file.size / 1024 / 1024 < 2
+			var isU = (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/bmp');
+
+			if (!isU) {
+				this.$message.error('上传头像图片只能是 jpg/png/bmp 格式!')
+				return
+			}
+			if (!isLt2M) {
+				this.$message.error('上传头像图片大小不能超过 2MB!')
+				return
+			}
+			http.put({
+				url:this.map.uploadimg,
+				data:file,
+				success:(res) => {
+					if(res.code===0){
+						this.$message.error(res.msg)
+					}else{
+						this.$message.success('头像上传成功')
+						this.headimg = res.data.src
+						this.form.useFileId = res.data.id
+					}
+				}
+			})
+
 		}
 	},
 	created(){
 		if(this.data && this.data.item){
 			this.form=this.data.item
+			if(this.form.headimg!=''){
+				this.headimg=this.form.headimg
+			}
 		}
 	}
 })

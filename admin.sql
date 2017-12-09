@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-12-08 00:15:50
+-- Generation Time: 2017-12-10 00:38:40
 -- 服务器版本： 10.1.8-MariaDB
 -- PHP Version: 5.6.14
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `ke_admin` (
 --
 
 INSERT INTO `ke_admin` (`id`, `user`, `pass`, `private`, `token`, `group_id`, `create_time`, `update_time`) VALUES
-(1, 'admin', '3718f0c9dff9225fed36c7038453d1c9', 'ewh5ixpeu6', '524b4bd1d31f65752944ba5b36b3563e', 4, 1512359668, 1512662448),
+(1, 'admin', '3718f0c9dff9225fed36c7038453d1c9', 'ewh5ixpeu6', '203a205a84193f60cc2771e3864148e4', 4, 1512359668, 1512837495),
 (2, 'wdaglb', 'fa0c9b4d94cb1c15a019de4e6ae3944a', 'uheqhx9zc8', '', 4, 0, 0),
 (3, 'admins', '14f0aead929248e2947f13911952e186', '8qzmmsuuuz', '', 4, 0, 1512565097),
 (5, 'admin0', 'a', '', '', 5, 1512567061, 0),
@@ -424,7 +424,14 @@ INSERT INTO `ke_admin_log` (`id`, `desc`, `user_id`, `create_time`) VALUES
 ('5a2941aaaf898212706534210', '修改会员ID：1', 1, 1512653226),
 ('5a294e4a12110222057137320', '修改会员ID：1', 1, 1512656457),
 ('5a29535ae3c88224234359840', '修改会员ID：1', 1, 1512657754),
-('5a2960f36e1b8234035727010', '设置角色ID：4', 1, 1512661235);
+('5a2960f36e1b8234035727010', '设置角色ID：4', 1, 1512661235),
+('5a2bdea0543a8210120519240', '登录系统', 1, 1512824480),
+('5a2be04893378210824406940', '修改会员ID：8', 1, 1512824904),
+('5a2c04e0737a8234432193410', '修改会员ID：1', 1, 1512834272),
+('5a2c059af1b30234738936870', '修改会员ID：1', 1, 1512834458),
+('5a2c067c854d0235124588480', '修改会员ID：1', 1, 1512834684),
+('5a2c0aea635d8001018894400', '设置角色ID：4', 1, 1512835818),
+('5a2c0c5ee9278001630622680', '修改会员ID：1', 1, 1512836190);
 
 -- --------------------------------------------------------
 
@@ -460,7 +467,7 @@ CREATE TABLE IF NOT EXISTS `ke_admin_rule` (
   `name` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '绑定URL',
   `title` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '规则中文名',
   `controller` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '规则'
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- 转存表中的数据 `ke_admin_rule`
@@ -475,7 +482,9 @@ INSERT INTO `ke_admin_rule` (`id`, `parent_id`, `name`, `title`, `controller`) V
 (6, 0, 'user', '会员', 'user'),
 (7, 6, 'user.group/lists', '用户组管理', 'user.group/*'),
 (8, 6, 'user/lists', '会员管理', 'user/*'),
-(9, 6, 'user.finance/lists', '财务记录', 'user.finance/*');
+(9, 6, 'user.finance/lists', '财务记录', 'user.finance/*'),
+(10, 0, 'tools', '工具', 'tools'),
+(11, 10, 'file/lists', '文件管理', 'file/*');
 
 -- --------------------------------------------------------
 
@@ -498,6 +507,7 @@ INSERT INTO `ke_admin_rule_access` (`role_id`, `rule_id`) VALUES
 (1, 3),
 (1, 4),
 (1, 5),
+(4, 9),
 (4, 8),
 (4, 7),
 (4, 6),
@@ -506,7 +516,31 @@ INSERT INTO `ke_admin_rule_access` (`role_id`, `rule_id`) VALUES
 (4, 3),
 (4, 2),
 (4, 1),
-(4, 9);
+(4, 10),
+(4, 11);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `ke_file`
+--
+
+CREATE TABLE IF NOT EXISTS `ke_file` (
+  `id` varchar(32) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `mime` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `names` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `ext` varchar(10) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `src` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `use` tinyint(1) NOT NULL DEFAULT '0',
+  `upload_time` int(11) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- 转存表中的数据 `ke_file`
+--
+
+INSERT INTO `ke_file` (`id`, `mime`, `names`, `ext`, `src`, `use`, `upload_time`) VALUES
+('fa6b9834ccf5dbe51050750034c1dd1e', 'image/jpeg', '0df305a5ffaffd2762b3db35e868a6a2.jpg', 'jpg', 'user/head/20171210/0df305a5ffaffd2762b3db35e868a6a2.jpg', 1, 1512836189);
 
 -- --------------------------------------------------------
 
@@ -560,7 +594,7 @@ CREATE TABLE IF NOT EXISTS `ke_users` (
 --
 
 INSERT INTO `ke_users` (`id`, `user`, `pass`, `private`, `token`, `nick`, `group_id`, `sex`, `age`, `money`, `status`, `create_time`, `update_time`, `integral`, `headimg`) VALUES
-(1, 'user1', 'b523f761aef9f2370bba2fdd3297e61e', 'bpm0dg6tqv', '', 'nick1', 3, 0, 39, '1168.00', 1, 1512637269, 0, 7953, ''),
+(1, 'user1', 'b523f761aef9f2370bba2fdd3297e61e', 'bpm0dg6tqv', '', 'nick1', 3, 0, 39, '1168.00', 1, 1512637269, 0, 7953, '/attachment?id=fa6b9834ccf5dbe51050750034c1dd1e'),
 (2, 'user2', '2e8de01d9c19396e1bbcc99d5c65dfb4', 'f7huzzncm', '', 'nick2', 2, 0, 17, '0.00', 0, 1512637269, 0, 560, ''),
 (3, 'user3', 'f50680885e31b2c686f6a5fdd9ccdb8e', '38nu313brh', '', 'nick3', 2, 0, 95, '0.00', 0, 1512637269, 0, 3215, ''),
 (4, 'user4', 'd598b70d2ec061d6ced0d5fd770f72e2', 'ofofmig29y', '', 'nick4', 2, 0, 35, '0.00', 0, 1512637269, 0, 6514, ''),
@@ -775,28 +809,29 @@ CREATE TABLE IF NOT EXISTS `ke_users_finance` (
   `desc` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '备注',
   `paytype` tinyint(2) NOT NULL DEFAULT '0' COMMENT '充值方式',
   `action_id` int(11) NOT NULL DEFAULT '0' COMMENT '操作ID',
-  `create_time` int(11) NOT NULL DEFAULT '0'
+  `create_time` int(11) NOT NULL DEFAULT '0',
+  `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- 转存表中的数据 `ke_users_finance`
 --
 
-INSERT INTO `ke_users_finance` (`id`, `user_id`, `money`, `types`, `desc`, `paytype`, `action_id`, `create_time`) VALUES
-('LG201712072322333iu6og5a295cb9a4', 1, '20.00', 0, '', 0, 0, 1512660153),
-('LG20171207qkvcl35a295cf2d8108271', 1, '1111.00', 0, '', 0, 0, 1512660210),
-('LG20171207hgrfd95a295d1d74f18416', 1, '4.00', 0, '', 1, 0, 1512660253),
-('LG20171207uo75ff5a295d731e078822', 1, '1.00', 0, '', 0, 1, 1512660338),
-('LG201712071hwsww5a295e1519258618', 1, '5.00', 0, '', 0, 1, 1512660500),
-('LG20171207e37yyo5a295e427e770212', 1, '445.00', 0, '', 0, 1, 1512660546),
-('LG20171207xlwy3e5a295ea526160750', 2, '1.00', 0, '', 0, 1, 1512660644),
-('LG20171207s4umi5a295ec8a41008116', 1, '21.00', 0, '', 0, 1, 1512660680),
-('LG20171207in1tqr5a295efa26548871', 1, '1.00', 0, '', 0, 1, 1512660729),
-('LG20171207y2c2i35a295f3719a28330', 1, '456.00', 0, '', 0, 1, 1512660790),
-('LG20171207xt444y5a295fa38b678347', 1, '4.00', 0, '', 0, 1, 1512660899),
-('LG20171207s7im165a295fdbe57e0135', 1, '8.00', 0, '', 0, 1, 1512660955),
-('LG201712077b01re5a295ffc0f230637', 1, '7.00', 0, '', 0, 1, 1512660987),
-('LG20171207xk42si5a29602ba6bf8398', 1, '2.00', 1, '', 0, 1, 1512661035);
+INSERT INTO `ke_users_finance` (`id`, `user_id`, `money`, `types`, `desc`, `paytype`, `action_id`, `create_time`, `status`) VALUES
+('LG201712072322333iu6og5a295cb9a4', 1, '20.00', 0, '', 0, 0, 1512660153, 1),
+('LG20171207qkvcl35a295cf2d8108271', 1, '1111.00', 0, '', 0, 0, 1512660210, 1),
+('LG20171207hgrfd95a295d1d74f18416', 1, '4.00', 0, '', 1, 0, 1512660253, 1),
+('LG20171207uo75ff5a295d731e078822', 1, '1.00', 0, '', 0, 1, 1512660338, 1),
+('LG201712071hwsww5a295e1519258618', 1, '5.00', 0, '', 0, 1, 1512660500, 1),
+('LG20171207e37yyo5a295e427e770212', 1, '445.00', 0, '', 0, 1, 1512660546, 1),
+('LG20171207xlwy3e5a295ea526160750', 2, '1.00', 0, '', 0, 1, 1512660644, 1),
+('LG20171207s4umi5a295ec8a41008116', 1, '21.00', 0, '', 0, 1, 1512660680, 1),
+('LG20171207in1tqr5a295efa26548871', 1, '1.00', 0, '', 0, 1, 1512660729, 1),
+('LG20171207y2c2i35a295f3719a28330', 1, '456.00', 0, '', 0, 1, 1512660790, 1),
+('LG20171207xt444y5a295fa38b678347', 1, '4.00', 0, '', 0, 1, 1512660899, 1),
+('LG20171207s7im165a295fdbe57e0135', 1, '8.00', 0, '', 0, 1, 1512660955, 1),
+('LG201712077b01re5a295ffc0f230637', 1, '7.00', 0, '', 0, 1, 1512660987, 1),
+('LG20171207xk42si5a29602ba6bf8398', 1, '2.00', 1, '', 0, 1, 1512661035, 1);
 
 -- --------------------------------------------------------
 
@@ -849,6 +884,12 @@ ALTER TABLE `ke_admin_rule`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `ke_file`
+--
+ALTER TABLE `ke_file`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `ke_site`
 --
 ALTER TABLE `ke_site`
@@ -895,7 +936,7 @@ ALTER TABLE `ke_admin_role`
 -- AUTO_INCREMENT for table `ke_admin_rule`
 --
 ALTER TABLE `ke_admin_rule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `ke_site`
 --

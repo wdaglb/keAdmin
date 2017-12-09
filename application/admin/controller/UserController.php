@@ -8,6 +8,7 @@ namespace app\admin\controller;
 
 
 use app\admin\model\AdminLog;
+use app\common\model\File;
 use app\common\model\Users;
 use app\common\model\UsersFinance;
 use ke\Controller;
@@ -107,6 +108,9 @@ class UserController extends Controller
         }
         $data->user=$form['user'];
         $data->nick=$form['nick'];
+        if(isset($form['useFileId']) && $form['useFileId']!=''){
+            $data->headimg=File::uses($form['useFileId']);
+        }
         $data->group_id=$form['group_id'];
         if(isset($form['pass']) && $form['pass']!=''){
             $data->pass=$form['pass'];
@@ -182,6 +186,36 @@ class UserController extends Controller
             'type'=>1
         ]);
         $this->success('充值成功');
+    }
+
+    /**
+     * 上传头像
+     * @param Request $request
+     */
+    public function uploadimg(Request $request)
+    {
+        $fs=$request->file('file');
+        if($fs){
+            $info=$fs->move(UPLOAD_PATH.'user/head/');
+            if($info){
+                $id=File::add([
+                    'ext'=>$info->getExtension(),
+                    'src'=>'user/head/'.str_replace('\\','/',$info->getSaveName()),
+                    'name'=>$info->getFilename(),
+                    'mime'=>$info->getMime(),
+                ]);
+                if($id){
+                    $this->result([
+                        'src'=>url('@attachment',['id'=>$id],''),
+                        'id'=>$id
+                    ]);
+                }else{
+                    $this->error('文件保存失败');
+                }
+            }else{
+                $this->error($fs->getError());
+            }
+        }
     }
 
 }

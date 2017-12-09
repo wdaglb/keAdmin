@@ -59,6 +59,17 @@ http={
 			params:options.params,
 			data: options.data
 		}).then(options.success).catch(options.fail)
+	},
+	put(options){
+		var url=options.url || ''
+		var fd=new FormData()
+		fd.append('file',options.data)
+		axios.request({
+			method: 'post',
+			url: url,
+			params:options.params,
+			data: fd
+		}).then(options.success).catch(options.fail)
 	}
 }
 

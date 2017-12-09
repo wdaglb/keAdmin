@@ -71,6 +71,14 @@ class Menu extends Controller
         }
 
 
+        if($access->isAuth('tools')) {
+            $i = $menu->create(['title' => '工具']);
+            if($access->isAuth('file/lists')) {
+                $menu->add($i, '附件管理', 'file/lists', ['icon' => 'file']);
+            }
+        }
+
+
         if($access->isAuth('sys')) {
             $i = $menu->create(['title' => '系统']);
             if($access->isAuth('setting/system')) {
