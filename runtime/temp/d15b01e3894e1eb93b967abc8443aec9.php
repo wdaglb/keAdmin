@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:82:"D:\web\UPUPW_AP5.6\vhosts\keAdmin\public/../application/admin\view\file\lists.html";i:1512908297;s:78:"D:\web\UPUPW_AP5.6\vhosts\keAdmin\public/../application/admin\view\layout.html";i:1512829479;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:90:"D:\web\UPUPW_AP5.6\vhosts\keAdmin\public/../application/admin\view\user\finance\lists.html";i:1512827820;s:78:"D:\web\UPUPW_AP5.6\vhosts\keAdmin\public/../application/admin\view\layout.html";i:1512829479;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,9 +14,9 @@
 <body>
 <div id="app" v-cloak>
 
-<?php $__K_TO_VUE_URLS['create']=url('create');$__K_TO_VUE_URLS['edit']=url('edit');$__K_TO_VUE_URLS['delete']=url('delete');$__K_TO_VUE_URLS['money']=url('money');$__K_TO_VUE_URLS['integral']=url('integral');$__K_TO_VUE_URLS['attachment']=url('@attachment',[],'');?>
+<?php $__K_TO_VUE_URLS['create']=url('create');$__K_TO_VUE_URLS['edit']=url('edit');$__K_TO_VUE_URLS['delete']=url('delete');$__K_TO_VUE_URLS['users']=url('user/edit',[],'.'.config('url_html_suffix'));?>
 <div class="row">
-	<div class="title">附件管理</div>
+	<div class="title">财务管理</div>
 </div>
 <div class="margin-li">
 
@@ -25,28 +25,34 @@
 
 
     <el-form-item label="关键词">
-      <el-input v-model="search.key" @keyup.enter.native="onSearch" placeholder="ID/文件名"></el-input>
+      <el-input v-model="search.key" @keyup.enter.native="onSearch" placeholder="订单ID/会员ID"></el-input>
     </el-form-item>
 
+
     <el-form-item label="状态">
-      <el-select v-model="search.status" style="width:80px">
+      <el-select v-model="search.status" style="width:100px">
         <el-option :value="-1" label="全部"></el-option>
-        <el-option :value="1" label="在用"></el-option>
-        <el-option :value="0" label="未用"></el-option>
+        <el-option :value="0" label="未付款"></el-option>
+        <el-option :value="-2" label="已关闭"></el-option>
+        <el-option :value="1" label="已完成"></el-option>
       </el-select>
     </el-form-item>
 
-    <el-form-item label="上传时间">
-      <el-date-picker
-        v-model="search.date"
-        type="daterange"
-        align="right"
-        unlink-panels
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        value-format="yyyy-MM-dd">
-      </el-date-picker>
+
+    <el-form-item label="类型">
+      <el-select v-model="search.types" style="width:80px">
+        <el-option :value="-1" label="全部"></el-option>
+        <el-option :value="0" label="金额"></el-option>
+        <el-option :value="1" label="积分"></el-option>
+      </el-select>
+    </el-form-item>
+
+    <el-form-item label="金额" class="input-duan">
+      <el-form-item>
+        <el-input v-model="search.money[0]" @keyup.enter.native="onSearch"></el-input>
+        -
+        <el-input v-model="search.money[1]" @keyup.enter.native="onSearch"></el-input>
+      </el-form-item>
     </el-form-item>
 
     <el-form-item>
@@ -61,53 +67,30 @@
     :data="list"
     border
     stripe>
-      <el-table-column prop="id" label="FID">
+      <el-table-column prop="id" label="订单ID" width="300" align="center">
   	</el-table-column>
-    <el-table-column label="文件名">
+    <el-table-column label="会员ID" width="80" align="center">
       <template slot-scope="item">
-        {{ item.row.names }}
-
-        <el-popover
-          placement="right"
-          trigger="click"
-          :content="map.attachment + '?id=' + item.row.id">
-          <el-button type="text" slot="reference">查看地址</el-button>
-        </el-popover>
-
-
-        <el-popover
-          placement="right"
-          trigger="click"
-          :content="item.row.srcs">
-          <el-button type="text" slot="reference">保存位置</el-button>
-        </el-popover>
-        
-      </template>
-    	</el-table-column>
-    <el-table-column prop="mime" label="MIME" width="160" align="center">
-      </el-table-column>
-    <el-table-column prop="uploadDate" label="上传时间" width="120" align="center">
-      </el-table-column>
-    <el-table-column label="状态" width="80" align="center">
-      <template slot-scope="item">
-        <el-tag type="danger" v-if="item.row.status == 0">未用</el-tag>
-        <el-tag type="info" v-else>在用</el-tag>
+        <a @click="maps('users',{id:item.row.user_id})">{{ item.row.user_id }}</a>
       </template>
       </el-table-column>
-    <el-table-column label="操作" width="80">
-        <template slot-scope="scope">
-          <el-dropdown trigger="click" @command="onUserAction">
-            <span class="el-dropdown-link">
-              操作<i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :command="{ type: 'move', item:scope.row }">移到云存储</el-dropdown-item>
-              <el-dropdown-item :command="{ type: 'delete', item:scope.row }">删除</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </template>
+    <el-table-column prop="money" label="金额" width="80" align="center">
       </el-table-column>
-
+    <el-table-column prop="create_time" label="操作时间" width="160">
+      </el-table-column>
+    <el-table-column prop="typesName" label="类型" width="80" align="center">
+      </el-table-column>
+    <el-table-column prop="payTypes" label="付款类型" width="120" align="center">
+      </el-table-column>
+    <el-table-column prop="status" label="状态" width="80" align="center">
+      <template slot-scope="item">
+        <span v-if="item.row.status == 0">未付款</span>
+        <span v-else-if="item.row.status == 1">已完成</span>
+        <span v-else-if="item.row.status == -2">已关闭</span>
+      </template>
+      </el-table-column>
+    <el-table-column prop="desc" label="备注">
+      </el-table-column>
   </el-table>
 
 

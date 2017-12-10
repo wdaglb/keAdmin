@@ -18,8 +18,8 @@
     <el-form-item label="状态">
       <el-select v-model="search.status" style="width:80px">
         <el-option :value="-1" label="全部"></el-option>
-        <el-option :value="0" label="在用"></el-option>
-        <el-option :value="1" label="未用"></el-option>
+        <el-option :value="1" label="在用"></el-option>
+        <el-option :value="0" label="未用"></el-option>
       </el-select>
     </el-form-item>
 
@@ -31,7 +31,8 @@
         unlink-panels
         range-separator="至"
         start-placeholder="开始日期"
-        end-placeholder="结束日期">
+        end-placeholder="结束日期"
+        value-format="yyyy-MM-dd">
       </el-date-picker>
     </el-form-item>
 
@@ -87,8 +88,7 @@
               操作<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :command="{ type: 'edit', item:scope.row }">修改文件</el-dropdown-item>
-              <el-dropdown-item :command="{ type: 'move', item:scope.row }">移动</el-dropdown-item>
+              <el-dropdown-item :command="{ type: 'move', item:scope.row }">移到云存储</el-dropdown-item>
               <el-dropdown-item :command="{ type: 'delete', item:scope.row }">删除</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>

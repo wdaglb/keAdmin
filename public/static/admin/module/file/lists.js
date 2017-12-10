@@ -7,9 +7,8 @@ ke.create({
 
 		search:{
 			key:'',
-			sex:-1,
 			status:-1,
-			age:[0,99]
+			date:''
 		},
 
 		dialog:{
@@ -36,7 +35,9 @@ ke.create({
 				params:{
 					size:this.size,
 					page:p,
-					key:this.search.key
+					key:this.search.key,
+					status:this.search.status,
+					date:this.search.date,
 				},
 				success:(res) => {
 					this.loadList = false
